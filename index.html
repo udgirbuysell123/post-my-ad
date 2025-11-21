@@ -44,9 +44,25 @@
       box-shadow:0 14px 38px rgba(10,18,45,0.10);
       transform-origin:center;
     }
-    .avatar{width:108px;height:108px;border-radius:50%;background:#fff;padding:6px;flex:0 0 108px;display:flex;align-items:center;justify-content:center}
-    .avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
-    .meta{flex:1;min-width:200px}
+.avatar{
+  width:140px;
+  height:140px;
+  border-radius:50%;
+  background:#fff;
+  padding:8px;
+  flex:0 0 140px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.avatar img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  border-radius:50%;
+}
+ .meta{flex:1;min-width:200px}
     .meta .username{font-weight:700;font-size:20px;margin:0}
     .meta .handle{margin:6px 0 8px;font-size:13px;opacity:.98}
     .meta .bio{font-size:13px;line-height:1.35;margin:0 0 10px}
