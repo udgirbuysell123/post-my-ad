@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>UdgirBuySell — Post Your Ad</title>
+  <style>
+    :root{
+      --bg1:#feda75; /* instagram like */
+      --bg2:#d62976;
+      --bg3:#4f5bd5;
+      --card:#ffffff;
+      --accent:#8a3ab9;
+      --muted:#666;
+      --radius:14px;
+      --maxw:720px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial;color:#111;background:linear-gradient(135deg,var(--bg1),var(--bg2),var(--bg3));min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+    .container{width:100%;max-width:var(--maxw);background:rgba(255,255,255,0.96);border-radius:20px;padding:18px;box-shadow:0 10px 30px rgba(0,0,0,0.15)}
+    .header{display:flex;align-items:center;gap:12px}
+    .logo{width:70px;height:70px;border-radius:50%;overflow:hidden;flex:0 0 70px;background:#fff;display:flex;align-items:center;justify-content:center}
+    .logo img{width:84%;height:auto;display:block}
+    h1{font-size:18px;margin:0}
+    p.lead{margin:6px 0 12px;color:var(--muted);font-size:13px}
+    form{display:grid;gap:10px}
+    .row{display:flex;gap:8px}
+    .col{flex:1}
+    label{font-size:12px;color:#333;margin-bottom:6px;display:block}
+    input[type=text], input[type=number], select, textarea{width:100%;padding:10px 12px;border-radius:10px;border:1px solid #e6e6e6;font-size:14px}
+    textarea{min-height:100px;resize:vertical}
+    .small{font-size:12px;color:var(--muted)}
+    .actions{display:flex;gap:8px;align-items:center;margin-top:6px}
+    .btn{background:linear-gradient(90deg,#ff5858,#ff8a00);color:#fff;padding:12px 16px;border-radius:12px;border:none;font-weight:600;cursor:pointer}
+    .btn.secondary{background:#fff;color:#111;border:1px solid #eee}
+    .note{font-size:12px;color:var(--muted);margin-top:6px}
+    footer{margin-top:12px;font-size:12px;color:var(--muted);text-align:center}
+    @media(max-width:520px){.logo{width:56px;height:56px}.container{padding:14px}}
+  </style>
+</head>
+<body>
+  <main class="container" role="main">
+    <header class="header">
+      <div class="logo"><img src="/mnt/data/1000078057.png" alt="UdgirBuySell logo" /></div>
+      <div>
+        <h1>UdgirBuySell — Post Your Ad</h1>
+        <p class="lead">Mobile-first Instagram-style form. Fill details and send directly to WhatsApp for quick posting.</p>
+      </div>
+    </header>
+
+    <form id="adForm" autocomplete="off">
+      <div>
+        <label for="category">Category</label>
+        <select id="category" required>
+          <option value="">Select category</option>
+          <option>Mobile</option>
+          <option>Car</option>
+          <option>Bike</option>
+          <option>Laptop</option>
+          <option>Computer</option>
+          <option>Property</option>
+          <option>Electronics</option>
+          <option>Other</option>
+        </select>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <label for="title">Item Name / Model</label>
+          <input id="title" type="text" placeholder="e.g. Vivo V23e 5G" required />
+        </div>
+        <div class="col">
+          <label for="price">Price</label>
+          <input id="price" type="text" placeholder="e.g. 3000" required />
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <label for="condition">Condition</label>
+          <select id="condition" required>
+            <option value="">Select</option>
+            <option>New</option>
+            <option>Used - Like New</option>
+            <option>Used - Good</option>
+            <option>Used - Fair / Needs Repair</option>
+            <option>Not Working</option>
+          </select>
+        </div>
+        <div class="col">
+          <label for="location">Location</label>
+          <input id="location" type="text" placeholder="e.g. Udgir" required />
+        </div>
+      </div>
+
+      <div>
+        <label for="description">Description</label>
+        <textarea id="description" placeholder="Any important details, faults, accessories included..."></textarea>
+      </div>
+
+      <div>
+        <label for="contact">Contact Number (Optional)</label>
+        <input id="contact" type="text" placeholder="e.g. 9123456789" />
+        <p class="small">We will include this in the WhatsApp message if provided.</p>
+      </div>
+
+      <div>
+        <label for="photos">Photos (optional)</label>
+        <input id="photos" type="file" accept="image/*" multiple />
+        <p class="small">Photos won't upload to WhatsApp automatically from GitHub Pages. After clicking send, attach photos in WhatsApp before sending.</p>
+      </div>
+
+      <div class="actions">
+        <button type="button" class="btn" id="sendBtn">Send to WhatsApp</button>
+        <button type="reset" class="btn secondary">Reset</button>
+      </div>
+
+      <p class="note">By clicking send you will open WhatsApp with the ad pre-filled. Please attach photos on WhatsApp if any.</p>
+
+    </form>
+
+    <footer>UdgirBuySell — Fast. Local. Trusted.</footer>
+  </main>
+
+  <script>
+    (function(){
+      const WA_NUMBER = '917769943026'; // destination number with country code
+      const sendBtn = document.getElementById('sendBtn');
+      const form = document.getElementById('adForm');
+
+      function buildMessage(data){
+        const lines = [];
+        lines.push('UdgirBuySell - New Ad');
+        lines.push('Category: ' + data.category);
+        lines.push('Item: ' + data.title);
+        lines.push('Price: ' + data.price);
+        lines.push('Condition: ' + data.condition);
+        if(data.description) lines.push('Description: ' + data.description);
+        lines.push('Location: ' + data.location);
+        if(data.contact) lines.push('Contact: ' + data.contact);
+        lines.push('\nPlease attach photos (if any) and confirm posting.');
+        return lines.join('\n');
+      }
+
+      function openWhatsApp(message){
+        const encoded = encodeURIComponent(message);
+        const url = 'https://wa.me/' + WA_NUMBER + '?text=' + encoded;
+        // open in new tab/window
+        window.open(url, '_blank');
+      }
+
+      sendBtn.addEventListener('click', function(){
+        // simple validation
+        const category = document.getElementById('category').value.trim();
+        const title = document.getElementById('title').value.trim();
+        const price = document.getElementById('price').value.trim();
+        const condition = document.getElementById('condition').value.trim();
+        const location = document.getElementById('location').value.trim();
+        const description = document.getElementById('description').value.trim();
+        const contact = document.getElementById('contact').value.trim();
+
+        if(!category || !title || !price || !condition || !location){
+          alert('Please fill Category, Item name, Price, Condition and Location.');
+          return;
+        }
+
+        const msg = buildMessage({category,title,price,condition,location,description,contact});
+        openWhatsApp(msg);
+      });
+
+      // optionally allow Enter to submit when focused inside text fields
+      form.addEventListener('keypress', function(e){
+        if(e.key === 'Enter'){
+          e.preventDefault();
+          sendBtn.click();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
