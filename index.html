@@ -1,192 +1,381 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Udgir Buy & Sell - Post Your Ad</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>UdgirBuySell — Post Your Ad</title>
+  <meta name="description" content="Post your ad on UdgirBuySell quickly — mobiles, cars, bikes, laptops, property. Free local posting; send via WhatsApp." />
+  <meta name="theme-color" content="#ff6fb4" />
+  <link rel="icon" href="/mnt/data/1000078057.png" />
 
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: "Poppins", sans-serif;
-            background: #fafafa;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+  <!-- JSON-LD (structured data) -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebSite",
+    "name":"UdgirBuySell",
+    "url":"https://your-site.example",
+    "description":"Local buy & sell community for Udgir — post ads quickly via WhatsApp"
+  }
+  </script>
 
-        .header {
-            width: 100%;
-            max-width: 450px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 20px 10px 0 10px;
-        }
+  <style>
+    /* ---------- Minimal reset ---------- */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+      background:linear-gradient(180deg,#fff,#fbfbfd);
+      color:#0b1220;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      display:flex;
+      justify-content:center;
+      padding:20px;
+    }
 
-        .header-logo {
-            width: 75px;
-            height: 75px;
-            border-radius: 50%;
-        }
+    /* ---------- Layout ---------- */
+    .wrap{width:100%;max-width:980px}
+    .hero{
+      display:flex;gap:20px;align-items:center;
+      background:linear-gradient(135deg,#f09433,#cc2366);
+      color:#fff;padding:22px;border-radius:16px;
+      box-shadow:0 14px 38px rgba(10,18,45,0.10);
+      transform-origin:center;
+    }
+    .avatar{width:108px;height:108px;border-radius:50%;background:#fff;padding:6px;flex:0 0 108px;display:flex;align-items:center;justify-content:center}
+    .avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+    .meta{flex:1;min-width:200px}
+    .meta .username{font-weight:700;font-size:20px;margin:0}
+    .meta .handle{margin:6px 0 8px;font-size:13px;opacity:.98}
+    .meta .bio{font-size:13px;line-height:1.35;margin:0 0 10px}
 
-        .header-title {
-            font-size: 22px;
-            font-weight: 600;
-            color: #333;
-            margin: 0;
-        }
+    .pill-row{display:flex;gap:8px;flex-wrap:wrap}
+    .pill{
+      background:rgba(255,255,255,0.12);color:#fff;padding:8px 12px;border-radius:999px;font-weight:700;
+      border:1px solid rgba(255,255,255,0.06);cursor:pointer;transition:transform .12s,box-shadow .12s;
+    }
+    .pill:focus{outline:3px solid rgba(255,255,255,0.12);outline-offset:3px}
+    .pill:hover{transform:translateY(-3px);box-shadow:0 8px 22px rgba(0,0,0,0.12)}
 
-        .container {
-            width: 90%;
-            max-width: 450px;
-            background: #ffffff;
-            padding: 25px;
-            margin-top: 15px;
-            border-radius: 18px;
-            box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.08);
-        }
+    .main{display:flex;gap:24px;margin-top:18px;align-items:flex-start;flex-wrap:wrap}
+    .left{flex:0 0 330px;min-width:240px}
+    .card{background:#fff;border-radius:12px;padding:14px;box-shadow:0 8px 28px rgba(10,18,45,0.06)}
 
-        h2 {
-            text-align: center;
-            margin-bottom: 15px;
-            color: #333;
-            font-weight: 600;
-        }
+    /* feed preview minimal */
+    .feed-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+    .tile{padding-top:100%;background:#eee;border-radius:6px;position:relative;overflow:hidden}
+    .tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 
-        label {
-            font-size: 15px;
-            margin-top: 12px;
-            display: block;
-            font-weight: 500;
-        }
+    /* form */
+    .form{flex:1;min-width:300px;background:#fff;border-radius:12px;padding:18px;box-shadow:0 10px 30px rgba(10,18,45,0.06)}
+    .form h2{margin:0 0 6px;font-size:18px}
+    .muted{color:#54607a;font-size:13px;margin:0 0 12px}
 
-        input,
-        textarea,
-        select {
-            width: 100%;
-            padding: 12px;
-            margin-top: 6px;
-            border-radius: 10px;
-            border: 1px solid #ddd;
-            font-size: 15px;
-            outline: none;
-            transition: 0.2s;
-        }
+    label{display:block;font-size:13px;color:#21304a;margin-top:10px;margin-bottom:6px}
+    input[type=text], textarea, select{
+      width:100%;padding:12px;border-radius:10px;border:1px solid #e9edf3;background:#fbfdff;font-size:14px;outline:none;
+      transition:box-shadow .12s,border-color .12s;
+    }
+    input:focus, select:focus, textarea:focus{border-color:#c86fb3;box-shadow:0 8px 24px rgba(200,111,179,0.08)}
+    textarea{min-height:88px;resize:vertical}
 
-        input:focus,
-        textarea:focus,
-        select:focus {
-            border-color: #ff4f8b;
-        }
+    .row{display:flex;gap:10px}
+    .row .col{flex:1}
 
-        textarea {
-            height: 90px;
-            resize: none;
-        }
+    .actions{display:flex;gap:10px;margin-top:14px}
+    .btn{
+      padding:12px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:700;font-size:15px;
+    }
+    .btn-primary{background:linear-gradient(90deg,#ff4fb0,#ff7ae0);color:#fff;flex:1;box-shadow:0 10px 26px rgba(255,122,224,0.12)}
+    .btn-ghost{background:transparent;border:1px solid #eef3fb;color:#334155;padding:11px 12px;border-radius:10px}
 
-        .btn {
-            width: 100%;
-            padding: 14px;
-            margin-top: 18px;
-            font-size: 17px;
-            border: none;
-            border-radius: 12px;
-            background: linear-gradient(45deg, #ff4fb0, #ff7ae0);
-            color: white;
-            cursor: pointer;
-            font-weight: 600;
-            transition: 0.2s;
-        }
+    .note{font-size:13px;color:#6b7280;margin-top:12px}
 
-        .btn:hover {
-            opacity: 0.9;
-        }
+    /* small utility */
+    .flex-between{display:flex;justify-content:space-between;align-items:center}
+    .small{font-size:13px;color:#6b7280}
+    .toast{position:fixed;right:20px;bottom:20px;background:#0b1220;color:#fff;padding:12px 16px;border-radius:10px;box-shadow:0 8px 30px rgba(2,6,23,0.28);opacity:0;transform:translateY(6px) scale(.98);transition:all .24s}
+    .toast.show{opacity:1;transform:none}
 
-        .footer {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 13px;
-            color: #888;
-            padding-bottom: 20px;
-        }
-    </style>
+    /* responsive */
+    @media (max-width:900px){.main{flex-direction:column}.left{order:2}.form{order:1}}
+    @media (max-width:420px){
+      .avatar{width:86px;height:86px;flex:0 0 86px}
+      .meta .username{font-size:18px}
+    }
+  </style>
 </head>
-
 <body>
+  <div class="wrap" role="document">
+    <!-- HERO -->
+    <header class="hero" role="banner" aria-label="UdgirBuySell header">
+      <div class="avatar" aria-hidden="true">
+        <img src="logo.png" alt="UdgirBuySell logo">
+      </div>
+      <div class="meta">
+        <div class="username">@udgirbuysell</div>
+        <div class="handle">Buy • Sell • Exchange • Udgir</div>
+        <div class="bio">📍 Udgir’s #1 Buy & Sell Market<br>📱 Mobiles | 🚗 Cars | 🏍 Bikes | 💻 Laptops<br>Post Your Ad • 100% Free</div>
+        <div class="pill-row" role="navigation" aria-label="Quick categories">
+          <button class="pill" data-cat="Mobile">Mobile</button>
+          <button class="pill" data-cat="Car">Car</button>
+          <button class="pill" data-cat="Bike">Bike</button>
+          <button class="pill" data-cat="Laptop">Laptop</button>
+          <button class="pill" data-cat="Property">Property</button>
+          <button class="pill" data-cat="Other">Other</button>
+        </div>
+      </div>
+    </header>
 
-    <div class="header">
-        <img src="logo.png" class="header-logo" alt="Udgir Buy & Sell">
-        <h1 class="header-title">Udgir Buy & Sell</h1>
-    </div>
+    <!-- MAIN -->
+    <div class="main">
+      <!-- LEFT: trust preview -->
+      <aside class="left" aria-label="Recent posts preview">
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <strong style="font-size:14px">Recent posts</strong>
+            <button id="copyLink" class="btn btn-ghost" title="Copy shareable link">Copy link</button>
+          </div>
+          <div style="height:12px"></div>
+         
+    <div class="feed-grid">
+    
+    <!-- Reel 1 -->
+    <a class="tile" href="https://www.instagram.com/reel/DQs9ekJDLgn/" target="_blank" rel="noopener">
+        <img src="https://www.instagram.com/p/DQs9ekJDLgn/media/?size=l" alt="Reel 1">
+    </a>
 
-    <div class="container">
-        <h2>Post Your Ad</h2>
+    <!-- Reel 2 -->
+    <a class="tile" href="https://www.instagram.com/reel/DRB9WZZjxPX/" target="_blank" rel="noopener">
+        <img src="https://www.instagram.com/p/DRB9WZZjxPX/media/?size=l" alt="Reel 2">
+    </a>
 
-        <label>Category</label>
-        <select id="category">
-            <option value="">Select</option>
-            <option>Mobile</option>
-            <option>Car</option>
-            <option>Bike</option>
-            <option>Laptop</option>
-            <option>Computer</option>
-            <option>Property</option>
+    <!-- Reel 3 -->
+    <a class="tile" href="https://www.instagram.com/reel/DRRMfAYDFly/" target="_blank" rel="noopener">
+        <img src="https://www.instagram.com/p/DRRMfAYDFly/media/?size=l" alt="Reel 3">
+    </a>
+
+</div>
+
+          <p style="margin-top:12px;font-size:13px;color:#6b7280">Preview feed to build trust. Replace placeholders with your own images in the repo.</p>
+        </div>
+      </aside>
+
+      <!-- FORM -->
+      <main class="form" role="main" aria-labelledby="formTitle">
+        <h2 id="formTitle">Post your ad</h2>
+        <p class="muted">Fill the form below. Tap <strong>Send on WhatsApp</strong> and attach photos in WhatsApp before sending.</p>
+
+        <form id="adForm" onsubmit="return false" autocomplete="off" aria-label="Post ad form">
+          <label for="category">Category</label>
+          <select id="category" required>
+            <option value="">Select category</option>
+            <option>Mobile</option><option>Car</option><option>Bike</option>
+            <option>Laptop</option><option>Computer</option><option>Property</option>
             <option>Other</option>
-        </select>
+          </select>
 
-        <label>Item Name / Model</label>
-        <input type="text" id="item" placeholder="e.g. iPhone 11, Honda Activa">
+          <label for="title">Item name / Model</label>
+          <input id="title" type="text" placeholder="e.g. Vivo V23e 5G" required aria-required="true">
 
-        <label>Price</label>
-        <input type="text" id="price" placeholder="e.g. 12,500">
+          <div class="row">
+            <div class="col">
+              <label for="price">Price (₹)</label>
+              <input id="price" type="text" inputmode="numeric" placeholder="e.g. 3000" pattern="[0-9\s,]+" />
+            </div>
+            <div class="col">
+              <label for="condition">Condition</label>
+              <select id="condition" required>
+                <option value="">Select</option><option>New</option><option>Like New</option>
+                <option>Good</option><option>Used</option><option>Not Working / Repair</option>
+              </select>
+            </div>
+          </div>
 
-        <label>Condition</label>
-        <select id="condition">
-            <option value="">Select</option>
-            <option>New</option>
-            <option>Like New</option>
-            <option>Good</option>
-            <option>Used</option>
-        </select>
+          <label for="desc">Short description</label>
+          <textarea id="desc" placeholder="Key details, faults, accessories (if any)"></textarea>
 
-        <label>Description</label>
-        <textarea id="description" placeholder="Short description"></textarea>
+          <label for="location">Location</label>
+          <input id="location" type="text" placeholder="e.g. Udgir" required>
 
-        <label>Location</label>
-        <input type="text" id="location" placeholder="Your area / Udgir">
+          <div class="actions">
+            <button id="sendBtn" class="btn btn-primary" type="button" aria-live="polite">Send on WhatsApp</button>
+            <button id="previewBtn" class="btn btn-ghost" type="button">Preview message</button>
+          </div>
 
-        <button class="btn" onclick="sendToWhatsApp()">Send on WhatsApp</button>
+          <p class="note">We will open WhatsApp with your ad prefilled. Please attach photos in WhatsApp before sending. Your draft is saved locally in your browser.</p>
+        </form>
+      </main>
     </div>
 
-    <p class="footer">Udgir Buy & Sell © 2024</p>
+    <div style="height:14px"></div>
+    <div style="text-align:center;color:#6b7280;font-size:13px">UdgirBuySell — Local • Trusted • Free</div>
+  </div>
 
-    <script>
-        function sendToWhatsApp() {
-            const num = "917769943026";
+  <!-- Toast -->
+  <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true">Copied to clipboard</div>
 
-            const category = document.getElementById("category").value;
-            const item = document.getElementById("item").value;
-            const price = document.getElementById("price").value;
-            const condition = document.getElementById("condition").value;
-            const description = document.getElementById("description").value;
-            const location = document.getElementById("location").value;
+  <script>
+    (function(){
+      const WA_NUMBER = '917769943026'; // edit if needed
 
-            const text =
-                `New Ad Submission:%0A%0A` +
-                `Category: ${category}%0A` +
-                `Item: ${item}%0A` +
-                `Price: ${price}%0A` +
-                `Condition: ${condition}%0A` +
-                `Description: ${description}%0A` +
-                `Location: ${location}%0A`;
+      // form elements
+      const category = document.getElementById('category');
+      const title = document.getElementById('title');
+      const price = document.getElementById('price');
+      const condition = document.getElementById('condition');
+      const desc = document.getElementById('desc');
+      const locationEl = document.getElementById('location');
+      const sendBtn = document.getElementById('sendBtn');
+      const previewBtn = document.getElementById('previewBtn');
+      const pills = document.querySelectorAll('.pill');
+      const copyLinkBtn = document.getElementById('copyLink');
+      const toast = document.getElementById('toast');
+      const form = document.getElementById('adForm');
+      const STORAGE_KEY = 'udgir_ad_draft_v1';
 
-            window.open(`https://wa.me/${num}?text=${text}`, "_blank");
+      // restore draft
+      function restore(){
+        try{
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if(!raw) return;
+          const data = JSON.parse(raw);
+          category.value = data.category || '';
+          title.value = data.title || '';
+          price.value = data.price || '';
+          condition.value = data.condition || '';
+          desc.value = data.desc || '';
+          locationEl.value = data.location || '';
+        }catch(e){console.warn(e)}
+      }
+      restore();
+
+      // autosave draft
+      function save(){
+        const data = {
+          category: category.value,
+          title: title.value,
+          price: price.value,
+          condition: condition.value,
+          desc: desc.value,
+          location: locationEl.value
+        };
+        try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }catch(e){}
+      }
+      [category,title,price,condition,desc,locationEl].forEach(el=>el.addEventListener('input', save));
+
+      // pill behavior (keyboard accessible)
+      pills.forEach(p=>{
+        p.addEventListener('click', ()=>{ category.value = p.dataset.cat || ''; title.focus(); save(); });
+        p.addEventListener('keyup', (e)=>{ if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); p.click(); }});
+      });
+
+      // small utility: show toast
+      let toastTm;
+      function showToast(text='Copied to clipboard'){
+        toast.textContent = text;
+        toast.classList.add('show');
+        clearTimeout(toastTm);
+        toastTm = setTimeout(()=> toast.classList.remove('show'), 2200);
+      }
+
+      // copy shareable link (current page)
+      copyLinkBtn.addEventListener('click', async ()=>{
+        try{
+          const link = location.href;
+          await navigator.clipboard.writeText(link);
+          showToast('Link copied');
+        }catch(e){
+          showToast('Unable to copy');
         }
-    </script>
+      });
 
+      // build message for WhatsApp
+      function buildMessage(){
+        const cat = category.value.trim();
+        const t = title.value.trim();
+        const pr = price.value.trim();
+        const cond = condition.value.trim();
+        const de = desc.value.trim();
+        const loc = locationEl.value.trim();
+
+        if(!cat || !t || !loc) {
+          alert('Please fill Category, Item name, and Location.');
+          return null;
+        }
+
+        const lines = [
+          'UdgirBuySell — New Ad',
+          `Category: ${cat}`,
+          `Item: ${t}`,
+          pr ? `Price: ₹${pr}` : null,
+          `Condition: ${cond || '—'}`,
+          de ? `Description: ${de}` : null,
+          `Location: ${loc}`,
+          '',
+          'Please attach photos (if any) and confirm posting.'
+        ].filter(Boolean);
+
+        return lines.join('\n');
+      }
+
+      // open WhatsApp with encoded message
+      function openWhatsApp(msg){
+        const url = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(msg);
+        window.open(url, '_blank');
+      }
+
+      // preview message in modal-like alert (simple)
+      previewBtn.addEventListener('click', ()=>{
+        const msg = buildMessage();
+        if(!msg) return;
+        // show a simple preview; in real app you might implement a modal
+        const preview = '--- WhatsApp Preview ---\n\n' + msg;
+        // copy preview to clipboard optionally
+        if(confirm(preview + '\n\nCopy this message to clipboard?')) {
+          try{ navigator.clipboard.writeText(msg); showToast('Message copied'); }catch(e){ showToast('Copy failed'); }
+        }
+      });
+
+      // send button
+      sendBtn.addEventListener('click', ()=>{
+        const msg = buildMessage();
+        if(!msg) return;
+        openWhatsApp(msg);
+      });
+
+      // reset btn: clear storage + form
+      document.getElementById('resetBtn')?.addEventListener('click', ()=>{
+        form.reset();
+        try{ localStorage.removeItem(STORAGE_KEY); }catch(e){}
+      });
+
+      // small UX: allow Enter to submit when focused in last field
+      [title, price, locationEl].forEach(el=>{
+        el.addEventListener('keydown', (e)=>{
+          if(e.key === 'Enter' && !e.shiftKey){
+            e.preventDefault();
+            sendBtn.click();
+          }
+        });
+      });
+
+      // enhance price input: remove letters on paste
+      price.addEventListener('input', ()=>{
+        price.value = price.value.replace(/[^\d, ]/g,'');
+      });
+
+      // accessibility: announce that draft restored (if any)
+      document.addEventListener('DOMContentLoaded', ()=>{
+        try{
+          const data = localStorage.getItem(STORAGE_KEY);
+          if(data) showToast('Draft restored');
+        }catch(e){}
+      });
+
+    })();
+  </script>
 </body>
-
 </html>
