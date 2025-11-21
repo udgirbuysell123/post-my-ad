@@ -2,8 +2,8 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Udgir Buy & Sell - Post Your Ad</title>
 
     <style>
@@ -17,20 +17,36 @@
             align-items: center;
         }
 
+        .header {
+            width: 100%;
+            max-width: 450px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 20px 10px 0 10px;
+        }
+
+        .header-logo {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+        }
+
+        .header-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #333;
+            margin: 0;
+        }
+
         .container {
             width: 90%;
             max-width: 450px;
             background: #ffffff;
             padding: 25px;
-            margin-top: 25px;
+            margin-top: 15px;
             border-radius: 18px;
             box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.08);
-        }
-
-        .logo {
-            width: 160px;
-            display: block;
-            margin: 20px auto;
         }
 
         h2 {
@@ -93,14 +109,18 @@
             text-align: center;
             margin-top: 20px;
             font-size: 13px;
-            color: #666;
+            color: #888;
+            padding-bottom: 20px;
         }
     </style>
 </head>
 
 <body>
 
-    <img src="logo.png" class="logo" alt="Udgir Buy & Sell" />
+    <div class="header">
+        <img src="logo.png" class="header-logo" alt="Udgir Buy & Sell">
+        <h1 class="header-title">Udgir Buy & Sell</h1>
+    </div>
 
     <div class="container">
         <h2>Post Your Ad</h2>
@@ -118,10 +138,10 @@
         </select>
 
         <label>Item Name / Model</label>
-        <input type="text" id="item" placeholder="e.g. iPhone 11, Honda Activa" />
+        <input type="text" id="item" placeholder="e.g. iPhone 11, Honda Activa">
 
         <label>Price</label>
-        <input type="text" id="price" placeholder="e.g. 12,500" />
+        <input type="text" id="price" placeholder="e.g. 12,500">
 
         <label>Condition</label>
         <select id="condition">
@@ -136,7 +156,7 @@
         <textarea id="description" placeholder="Short description"></textarea>
 
         <label>Location</label>
-        <input type="text" id="location" placeholder="Your area / Udgir" />
+        <input type="text" id="location" placeholder="Your area / Udgir">
 
         <button class="btn" onclick="sendToWhatsApp()">Send on WhatsApp</button>
     </div>
@@ -146,6 +166,7 @@
     <script>
         function sendToWhatsApp() {
             const num = "917769943026";
+
             const category = document.getElementById("category").value;
             const item = document.getElementById("item").value;
             const price = document.getElementById("price").value;
